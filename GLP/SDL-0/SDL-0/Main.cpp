@@ -1,5 +1,4 @@
-﻿#include <iostream>
-#include <SDL.h>
+﻿#include <SDL.h>
 #include <glew.h>
 #include <iostream>
 #include <fstream>
@@ -52,7 +51,7 @@ int main(int argc, char* argv[])
 	glViewport(0, 0, width, height);
 
 	//Put the color you want here for the background
-	glClearColor(0.0f, 0.5f, 0.7f, 1.0f);
+	glClearColor(0.9f, 0.7f, 0.9f, 1.0f);
 
 	//Create an ID to be given at object generation
 	unsigned int vbo;
@@ -126,6 +125,13 @@ int main(int argc, char* argv[])
 
 	//VAO to use next
 	glBindVertexArray(vao);
+
+
+	//Use depth management
+	glEnable(GL_DEPTH_TEST);
+
+	//0 is our origin, the higher the z, the farther the object
+	glDepthFunc(GL_LESS);
 
 	//OMG WE FINALLY DRAW ! We use the GL_TRIANGLES primitive type
 
