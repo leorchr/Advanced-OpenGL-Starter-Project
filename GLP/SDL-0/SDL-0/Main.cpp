@@ -185,11 +185,9 @@ int main(int argc, char* argv[])
 		if (updatePosY + maxY >= 1) speedY *= -1;
 		if (updatePosY + minY <= -1) speedY *= -1;
 
-		int xLocation = glGetUniformLocation(shaderProgram, "updatePosX");
-		int yLocation = glGetUniformLocation(shaderProgram, "updatePosY");
+		int location = glGetUniformLocation(shaderProgram, "updatePos");
 		glUseProgram(shaderProgram);
-		glUniform1f(xLocation, updatePosX);
-		glUniform1f(yLocation, updatePosY);
+		glUniform2f(location, updatePosX, updatePosY);
 		
 
 		glDrawArrays(GL_TRIANGLES, 0,sizeof(vertices)/3);
