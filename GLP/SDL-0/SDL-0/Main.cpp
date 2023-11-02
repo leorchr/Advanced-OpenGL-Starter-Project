@@ -11,11 +11,37 @@ string LoadShader(string fileName);
 
 int main(int argc, char* argv[])
 {
+	float updatePosX = 0.0f;
+	float updatePosY = 0.0f;
+	float speedX = 0.01, speedY = 0.02;
+	float maxX = 0.4f;
+	float minY = -0.05f, maxY = 0.5f;
+
 	float vertices[] = {
 
-			 -0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
-			0.5f, 0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
-			 0.0f,  -0.5f, 0.0f,  0.0f, 0.0f, 1.0f
+			 0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+			 0.3f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+			 0.3f, 0.2f, 0.0f,  0.0f, 0.0f, 1.0f,
+
+			 0.3f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+			 0.2f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,
+			 0.3f, 0.4f, 0.0f,  0.0f, 0.0f, 1.0f,
+
+			 0.3f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
+			 0.2f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,
+			 0.3f, 0.4f, 0.0f,  0.0f, 0.0f, 1.0f,
+
+			 0.3f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
+			 0.4f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,
+			 0.3f, 0.4f, 0.0f,  0.0f, 0.0f, 1.0f,
+
+			 0.1f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+			 0.05f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+			 0.1f,-0.05f, 0.0f,  0.0f, 0.0f, 1.0f,
+
+			 0.25f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+			 0.2f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+			 0.25f, -0.05f, 0.0f,  0.0f, 0.0f, 1.0f,
 	};
 
 
@@ -29,8 +55,9 @@ int main(int argc, char* argv[])
 	}
 	///////////SETTING UP SDL/////////////
 	//Create a simple window
-	int width = 400;
-	int height = 300;
+
+	int width = 800;
+	int height = 600;
 	unsigned int center = SDL_WINDOWPOS_CENTERED;
 	SDL_Window* Window = SDL_CreateWindow("My window", center, center, width, height, SDL_WINDOW_OPENGL);
 	//SDL_WINDOW_OPENGL is a u32 flag !
@@ -149,10 +176,23 @@ int main(int argc, char* argv[])
 			}
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
-		
+
+
+		updatePosX += speedX;
+		updatePosY += speedY;
+		if (updatePosX + maxX >= 1) speedX *= -1;
+		if (updatePosX <= -1) speedX *= -1;
+		if (updatePosY + maxY >= 1) speedY *= -1;
+		if (updatePosY + minY <= -1) speedY *= -1;
+
+		int xLocation = glGetUniformLocation(shaderProgram, "updatePosX");
+		int yLocation = glGetUniformLocation(shaderProgram, "updatePosY");
+		glUseProgram(shaderProgram);
+		glUniform1f(xLocation, updatePosX);
+		glUniform1f(yLocation, updatePosY);
 		
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0,sizeof(vertices)/3);
 		SDL_GL_SwapWindow(Window); // Swapbuffer
 
 
