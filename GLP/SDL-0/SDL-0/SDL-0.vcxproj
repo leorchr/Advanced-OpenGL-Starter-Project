@@ -82,12 +82,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="maths\Matrix4.cpp" />
+    <ClCompile Include="maths\Matrix4Row.cpp" />
+    <ClCompile Include="maths\Quaternion.cpp" />
+    <ClCompile Include="maths\Vector2.cpp" />
+    <ClCompile Include="maths\Vector3.cpp" />
+    <ClCompile Include="maths\Vector4.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MultiColor_Frag.shader" />
     <None Include="RGB_Frag.shader" />
     <None Include="SimpleFragment.shader" />
     <None Include="Vertex_Shader.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="maths\Maths.h" />
+    <ClInclude Include="maths\Matrix4.h" />
+    <ClInclude Include="maths\Matrix4Row.h" />
+    <ClInclude Include="maths\Quaternion.h" />
+    <ClInclude Include="maths\Vector2.h" />
+    <ClInclude Include="maths\Vector3.h" />
+    <ClInclude Include="maths\Vector4.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

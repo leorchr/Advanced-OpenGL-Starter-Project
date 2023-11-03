@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "Window.h"
+#include "Color.h"
 using namespace std;	
 
 #define GLEW_STATIC
@@ -38,12 +40,8 @@ int main(int argc, char* argv[])
 	int width = 800;
 	int height = 500;
 	unsigned int center = SDL_WINDOWPOS_CENTERED;
-	SDL_Window* Window = SDL_CreateWindow("My window", center, center, width, height, SDL_WINDOW_OPENGL);
-	//SDL_WINDOW_OPENGL is a u32 flag !
 
-
-	//Create an OpenGL compatible context to let glew draw on it
-	SDL_GLContext Context = SDL_GL_CreateContext(Window);
+	Window window(width, height, Color(0.0f, 0.0f, 0.2f, 1.0f));
 
 	/////////SETTING UP OPENGL WITH GLEW///
 	//Initialize glew
@@ -143,6 +141,17 @@ int main(int argc, char* argv[])
 			case SDL_QUIT:
 				isRunning = false;
 				break;
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym) {
+				case SDLK_UP:
+					updatePosY += 0.2;
+					break;
+				case SDLK_DOWN:
+					updatePosY -= 0.2;
+					break;
+				default:
+					break;
+				}
 			default:
 				break;
 			}
@@ -164,13 +173,12 @@ int main(int argc, char* argv[])
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-		SDL_GL_SwapWindow(Window); // Swapbuffer
+		window.Update();
 
 
 	}
 	// Quit
-	SDL_DestroyWindow(Window);
-	SDL_GL_DeleteContext(Context);
+	window.Close();
 
 
 	cin.get();

@@ -13,10 +13,69 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers de ressources\maths">
+      <UniqueIdentifier>{c3a94e8a-3cea-4318-b266-8751dac9c933}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="maths\Matrix4.cpp">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="maths\Matrix4Row.cpp">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="maths\Quaternion.cpp">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="maths\Vector2.cpp">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="maths\Vector3.cpp">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="maths\Vector4.cpp">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MultiColor_Frag.shader" />
+    <None Include="RGB_Frag.shader" />
+    <None Include="SimpleFragment.shader" />
+    <None Include="Vertex_Shader.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Color.h">
+      <Filter>Fichiers de ressources</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Maths.h">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Matrix4.h">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Matrix4Row.h">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Quaternion.h">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Vector2.h">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Vector3.h">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Vector4.h">
+      <Filter>Fichiers de ressources\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
