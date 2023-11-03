@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 {
 	float updatePosX = 0.0f;
 	float updatePosY = 0.0f;
-	float speedX = 0.01, speedY = 0.02;
+	float speedX = 0.01, speedY = 0.01;
 	float maxX = 0.4f;
 	float minY = -0.05f, maxY = 0.5f;
 
@@ -44,6 +44,11 @@ int main(int argc, char* argv[])
 			 0.25f, -0.05f, 0.0f,  0.0f, 0.0f, 1.0f,
 	};
 
+	float vertices2[] = {
+			-0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
+			0.5f, 0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
+			0.0f,  -0.5f, 0.0f,  0.0f, 0.0f, 1.0f
+	};
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
@@ -82,77 +87,141 @@ int main(int argc, char* argv[])
 
 	//Create an ID to be given at object generation
 	unsigned int vbo;
-
-
-	//Pass how many buffers should be created and the reference of the ID to get the value set
-	glGenBuffers(1, &vbo);
-
-	string vs = LoadShader("Vertex_Shader.shader");
-	const char* vertexShaderSource = vs.c_str();
-	string fs = LoadShader("RGB_Frag.shader");
-	const char* fragmentShaderSource = fs.c_str();
-
-
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-
-	//now that we have a vertex shader, let’s put the code text inside
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-
-
-	//aaaaand… Compile !
-	glCompileShader(vertexShader);
-
-
-	//Do the same with the fragment shader !
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-
 	unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
+	{
+
+		//Pass how many buffers should be created and the reference of the ID to get the value set
+		glGenBuffers(1, &vbo);
+
+		string vs = LoadShader("Vertex_Shader.shader");
+		const char* vertexShaderSource = vs.c_str();
+		string fs = LoadShader("RGB_Frag.shader");
+		const char* fragmentShaderSource = fs.c_str();
+
+
+		unsigned int vertexShader;
+		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+
+		//now that we have a vertex shader, let’s put the code text inside
+		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+
+
+		//aaaaand… Compile !
+		glCompileShader(vertexShader);
+
+
+		//Do the same with the fragment shader !
+		unsigned int fragmentShader;
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+		glCompileShader(fragmentShader);
+
+		shaderProgram = glCreateProgram();
 
 
 
-	//now attach shaders to use to the program
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
+		//now attach shaders to use to the program
+		glAttachShader(shaderProgram, vertexShader);
+		glAttachShader(shaderProgram, fragmentShader);
 
-	//and link it 
-	glLinkProgram(shaderProgram);
+		//and link it 
+		glLinkProgram(shaderProgram);
 
-	//now that the program is complete, we can use it 
-	glUseProgram(shaderProgram);
+		//now that the program is complete, we can use it 
+		glUseProgram(shaderProgram);
+
+	}
+
+	//Create an ID to be given at object generation
+	unsigned int vbo2;
+	unsigned int shaderProgram2;
+	{
+
+		//Pass how many buffers should be created and the reference of the ID to get the value set
+		glGenBuffers(1, &vbo2);
+
+		string vs = LoadShader("Vertex_Shader.shader");
+		const char* vertexShaderSource = vs.c_str();
+		string fs = LoadShader("SimpleFragment.shader");
+		const char* fragmentShaderSource = fs.c_str();
+
+
+		unsigned int vertexShader;
+		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+
+		//now that we have a vertex shader, let’s put the code text inside
+		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+
+
+		//aaaaand… Compile !
+		glCompileShader(vertexShader);
+
+
+		//Do the same with the fragment shader !
+		unsigned int fragmentShader;
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+		glCompileShader(fragmentShader);
+
+		shaderProgram2 = glCreateProgram();
+
+
+
+		//now attach shaders to use to the program
+		glAttachShader(shaderProgram2, vertexShader);
+		glAttachShader(shaderProgram2, fragmentShader);
+
+		//and link it 
+		glLinkProgram(shaderProgram2);
+
+		//now that the program is complete, we can use it 
+		glUseProgram(shaderProgram2);
+
+	}
 
 	//Create one ID to be given at object generation
 	unsigned int vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+	{
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
 
 
-	//Binds the buffer linked to this ID to the vertex array buffer to be rendered. Put 0 instead of vbo to reset the value.
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		//Binds the buffer linked to this ID to the vertex array buffer to be rendered. Put 0 instead of vbo to reset the value.
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-	//Finally send the vertices array in the array buffer 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		//Finally send the vertices array in the array buffer 
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	// Position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	// Color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+		// Position attribute
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+		// Color attribute
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+	}
+
+	//Create one ID to be given at object generation
+	unsigned int vao2;
+	{
+		glGenVertexArrays(1, &vao2);
+		glBindVertexArray(vao2);
 
 
+		//Binds the buffer linked to this ID to the vertex array buffer to be rendered. Put 0 instead of vbo to reset the value.
+		glBindBuffer(GL_ARRAY_BUFFER, vbo2);
 
-	//Shader to use next
-	glUseProgram(shaderProgram);
+		//Finally send the vertices array in the array buffer 
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
 
-	//VAO to use next
-	glBindVertexArray(vao);
-
+		// Position attribute
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+		// Color attribute
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+	}
 
 	//Use depth management
 	glEnable(GL_DEPTH_TEST);
@@ -187,10 +256,14 @@ int main(int argc, char* argv[])
 
 		int location = glGetUniformLocation(shaderProgram, "updatePos");
 		glUseProgram(shaderProgram);
+		glBindVertexArray(vao);
 		glUniform2f(location, updatePosX, updatePosY);
-		
-
 		glDrawArrays(GL_TRIANGLES, 0,sizeof(vertices)/3);
+
+		glUseProgram(shaderProgram2);
+		glBindVertexArray(vao2);
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / 3);
+
 		SDL_GL_SwapWindow(Window); // Swapbuffer
 
 
