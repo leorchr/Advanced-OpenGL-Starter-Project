@@ -14,14 +14,14 @@ int main(int argc, char* argv[])
 	float updatePosX = 0.0f;
 	float updatePosY = 0.0f;
 	float speedX = 0.02, speedY = 0.01;
-	float maxX = 0.1f;
-	float maxY = 0.1f;
+	float maxX = 0.05f;
+	float maxY = 0.08f;
 
 	float vertices[] = {
 			0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
-			0.0f, 0.1f, 0.0f,  0.0f, 1.0f, 0.0f,
-			0.1f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
-			0.1f, 0.1f, 0.0f,  0.0f, 0.0f, 1.0f
+			0.0f, 0.08f, 0.0f,  0.0f, 1.0f, 0.0f,
+			0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+			0.05f, 0.08f, 0.0f,  0.0f, 0.0f, 1.0f
 	};
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
