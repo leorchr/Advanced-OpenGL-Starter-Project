@@ -10,18 +10,18 @@ using namespace std;
 
 #define GLEW_STATIC
 
+
 string LoadShader(string fileName);
 
 int main(int argc, char* argv[])
 {
 	float updatePosX = 0.0f;
 	float updatePosY = 0.0f;
+	float paddleLPosX = 0.0f, paddleLPosY = 0.0f;
+	float paddleRPosX = 0.0f, paddleRPosY = 0.0f;
 	float speedX = 0.02, speedY = 0.01;
 	float maxX = 0.05f;
 	float maxY = 0.08f;
-
-	
-
 
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -41,20 +41,30 @@ int main(int argc, char* argv[])
 
 	Window window(width, height, Color(0.0f, 0.0f, 0.2f, 1.0f));
 
-	vector<float> temp;
-	Shape2D::CreateRectangle(temp, Vector2(0, 0), Vector2(0.5, 0.2));
+	//vector<float> temp;
+	//Shape2D::CreateRectangle(temp, Vector2(0, 0), Vector2(0.5, 0.2));
 	//Shape2D::CreateRectangle(temp, Vector2(0,0), Vector2(0.2, 0.5));
 
 	//
-	float* vertices = new float[temp.size()];
-	std::copy(temp.begin(), temp.end(), vertices);
+	/*float* vertices = new float[temp.size()];
+	std::copy(temp.begin(), temp.end(), vertices);*/
 
-	//= {
-	//		0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
-	//		0.0f, 0.08f, 0.0f,  0.0f, 1.0f, 0.0f,
-	//		0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
-	//		0.05f, 0.08f, 0.0f,  0.0f, 0.0f, 1.0f
-	//};
+	float vertices[] = {
+			0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+			0.0f, 0.08f, 0.0f,  0.0f, 1.0f, 0.0f,
+			0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+			0.05f, 0.08f, 0.0f,  0.0f, 0.0f, 1.0f,
+			
+			-0.92f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
+		 -0.92f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f,
+		  -0.82f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
+		 -0.82f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f,
+
+		  0.92f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
+		  0.92f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f,
+		  0.82f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
+		  0.82f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f,
+	};
 
 	/////////SETTING UP OPENGL WITH GLEW///
 	//Initialize glew
@@ -132,11 +142,11 @@ int main(int argc, char* argv[])
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 		// Position attribute
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 		//// Color attribute
-		//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-		//glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
 	}
 
 	//Use depth management
@@ -156,11 +166,11 @@ int main(int argc, char* argv[])
 				break;
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym) {
-				case SDLK_UP:
-					updatePosY += 0.2;
+				case SDLK_z:
+					if(paddleLPosY + 0.2 < 1) paddleLPosY += 0.1;
 					break;
-				case SDLK_DOWN:
-					updatePosY -= 0.2;
+				case SDLK_s:
+					if (paddleLPosY - 0.2 > -1) paddleLPosY -= 0.1;
 					break;
 				default:
 					break;
@@ -171,9 +181,12 @@ int main(int argc, char* argv[])
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 
-		glBindVertexArray(vao);
 
+		glBindVertexArray(vao);
 		glUseProgram(shaderProgram);
+
+
+		//Move Ball
 		updatePosX += speedX;
 		updatePosY += speedY;
 		if (updatePosX + maxX >= 1) speedX *= -1;
@@ -181,11 +194,21 @@ int main(int argc, char* argv[])
 		if (updatePosY + maxY >= 1) speedY *= -1;
 		if (updatePosY <= -1) speedY *= -1;
 
+		//Check Hit
+		//if(!AABBCollision()) speedX *= -1;
+
+		//Move AI Right Paddle
+		if (updatePosY + 0.2 < 1 && updatePosY - 0.2 > -1) paddleRPosY = updatePosY;
+
 		int location = glGetUniformLocation(shaderProgram, "updatePos");
 		glUniform2f(location, updatePosX, updatePosY);
-
-		
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+		glUniform2f(location, paddleLPosX, paddleLPosY);
+		glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
+
+		glUniform2f(location, paddleRPosX, paddleRPosY);
+		glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
 		//Shape2D::DrawRectangle(0);
 		window.Update();
 
