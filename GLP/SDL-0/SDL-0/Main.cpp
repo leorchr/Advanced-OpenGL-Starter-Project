@@ -5,6 +5,7 @@
 #include <string>
 #include "Window.h"
 #include "Color.h"
+#include "Shapes2D.h"
 using namespace std;	
 
 #define GLEW_STATIC
@@ -19,12 +20,9 @@ int main(int argc, char* argv[])
 	float maxX = 0.05f;
 	float maxY = 0.08f;
 
-	float vertices[] = {
-			0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
-			0.0f, 0.08f, 0.0f,  0.0f, 1.0f, 0.0f,
-			0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
-			0.05f, 0.08f, 0.0f,  0.0f, 0.0f, 1.0f
-	};
+	
+
+
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
@@ -42,6 +40,21 @@ int main(int argc, char* argv[])
 	unsigned int center = SDL_WINDOWPOS_CENTERED;
 
 	Window window(width, height, Color(0.0f, 0.0f, 0.2f, 1.0f));
+
+	vector<float> temp;
+	Shape2D::CreateRectangle(temp, Vector2(0, 0), Vector2(0.5, 0.2));
+	//Shape2D::CreateRectangle(temp, Vector2(0,0), Vector2(0.2, 0.5));
+
+	//
+	float* vertices = new float[temp.size()];
+	std::copy(temp.begin(), temp.end(), vertices);
+
+	//= {
+	//		0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+	//		0.0f, 0.08f, 0.0f,  0.0f, 1.0f, 0.0f,
+	//		0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+	//		0.05f, 0.08f, 0.0f,  0.0f, 0.0f, 1.0f
+	//};
 
 	/////////SETTING UP OPENGL WITH GLEW///
 	//Initialize glew
@@ -119,11 +132,11 @@ int main(int argc, char* argv[])
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 		// Position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
-		// Color attribute
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(1);
+		//// Color attribute
+		//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		//glEnableVertexAttribArray(1);
 	}
 
 	//Use depth management
@@ -158,7 +171,9 @@ int main(int argc, char* argv[])
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 
+		glBindVertexArray(vao);
 
+		glUseProgram(shaderProgram);
 		updatePosX += speedX;
 		updatePosY += speedY;
 		if (updatePosX + maxX >= 1) speedX *= -1;
@@ -169,10 +184,9 @@ int main(int argc, char* argv[])
 		int location = glGetUniformLocation(shaderProgram, "updatePos");
 		glUniform2f(location, updatePosX, updatePosY);
 
-		glUseProgram(shaderProgram);
-		glBindVertexArray(vao);
+		
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
+		//Shape2D::DrawRectangle(0);
 		window.Update();
 
 

@@ -105,6 +105,7 @@
     <ClInclude Include="maths\Vector2.h" />
     <ClInclude Include="maths\Vector3.h" />
     <ClInclude Include="maths\Vector4.h" />
+    <ClInclude Include="Shapes2D.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
