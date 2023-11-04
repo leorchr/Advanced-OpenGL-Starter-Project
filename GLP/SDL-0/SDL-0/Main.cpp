@@ -167,16 +167,16 @@ int main(int argc, char* argv[])
 			if (event.type == SDL_KEYUP) {
 				switch (event.key.keysym.sym) {
 				case SDLK_z:
-					paddleSpeedY = 0;
+					if (paddleSpeedY == 0.01f) paddleSpeedY = 0;
 					break;
 				case SDLK_s:
-					paddleSpeedY = 0;
+					if (paddleSpeedY == -0.01f) paddleSpeedY = 0;
 					break;
 				case SDLK_UP:
-					paddleSpeedY = 0;
+					if (paddleSpeedY == 0.01f) paddleSpeedY = 0;
 					break;
 				case SDLK_DOWN:
-					paddleSpeedY = 0;
+					if(paddleSpeedY == -0.01f) paddleSpeedY = 0;
 					break;
 				default:
 					break;
@@ -236,7 +236,10 @@ int main(int argc, char* argv[])
 		if (updatePosX <= -1.0f) { aiPoints++; updatePosX = 0; speedX = -speedX; }
 		if (updatePosX + 0.05f >= 1.0f) { playerPoints++; updatePosX = 0; }
 		if (playerPoints >= 5) window.Close();
-		if (aiPoints >= 5) window.Close();
+		if (aiPoints >= 5) {
+			cout << "Bouhouhou tu as perdu ! De toute facon cette IA est imbattable.\n";
+			isRunning = false;
+		}
 
 
 		int location = glGetUniformLocation(shaderProgram, "updatePos");
