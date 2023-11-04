@@ -1,5 +1,6 @@
 ﻿#include <SDL.h>
 #include <glew.h>
+#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -10,19 +11,27 @@ using namespace std;
 
 #define GLEW_STATIC
 
-float updatePosX = 0.0f;
-float updatePosY = 0.0f;
+// Ball
+float ballPosX = 0.0f;
+float ballPosY = 0.0f;
+const float sizeBallX = 0.05f, sizeBallY = 0.08f;
+
+// Paddles
 float paddleLOffsetX = -0.9f, paddleLPosY = 0.0f;
 float paddleROffsetX = 0.85f, paddleRPosY = 0.0f;
+const float sizePaddleX = 0.05f, sizePaddleY = 0.4f;
 float paddleSpeedY;
-int playerPoints, aiPoints;
-float speedX = 0.015, speedY = 0.01;
-float maxX = 0.05f;
-float maxY = 0.08f;
+float speedX = 0.01f, speedY = 0.01f;
 
+// Score
+int playerPoints, aiPoints;
+
+// Functions
 string LoadShader(string fileName);
-bool leftPaddleCollision();
-bool rightPaddleCollision();
+bool LeftPaddleCollision();
+bool RightPaddleCollision();
+void MoveBall();
+void RandomizeBallYSpeed();
 
 int main(int argc, char* argv[])
 {
@@ -35,6 +44,7 @@ int main(int argc, char* argv[])
 	{
 		cout << "SDL initialization succeeded!\n";
 	}
+
 	///////////SETTING UP SDL/////////////
 	//Create a simple window
 
@@ -44,6 +54,7 @@ int main(int argc, char* argv[])
 
 	Window window(width, height, Color(0.0f, 0.0f, 0.2f, 1.0f));
 
+	//Tentative utilisation Shapes2D.h
 	//vector<float> temp;
 	//Shape2D::CreateRectangle(temp, Vector2(0, 0), Vector2(0.5, 0.2));
 	//Shape2D::CreateRectangle(temp, Vector2(0,0), Vector2(0.2, 0.5));
@@ -54,19 +65,19 @@ int main(int argc, char* argv[])
 
 	float vertices[] = {
 			0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
-			0.0f, 0.08f, 0.0f,  0.0f, 1.0f, 0.0f,
-			0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
-			0.05f, 0.08f, 0.0f,  0.0f, 0.0f, 1.0f,
+			0.0f, sizeBallY, 0.0f,  0.0f, 1.0f, 0.0f,
+			sizeBallX, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+			sizeBallX, sizeBallY, 0.0f,  0.0f, 0.0f, 1.0f,
 			
 			0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-			0.05f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
-			0.0f, 0.4f, 0.0f, 1.0f, 0.0f, 0.0f,
-			0.05f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,
+			sizePaddleX, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+			0.0f, sizePaddleY, 0.0f, 1.0f, 0.0f, 0.0f,
+			sizePaddleX, sizePaddleY, 0.0f,  0.0f, 1.0f, 0.0f,
 
 			0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-			0.05f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
-			0.0f, 0.4f, 0.0f, 1.0f, 0.0f, 0.0f,
-			0.05f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,
+			sizePaddleX, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+			0.0f, sizePaddleY, 0.0f, 1.0f, 0.0f, 0.0f,
+			sizePaddleX, sizePaddleY, 0.0f,  0.0f, 1.0f, 0.0f,
 	};
 
 	/////////SETTING UP OPENGL WITH GLEW///
@@ -81,7 +92,7 @@ int main(int argc, char* argv[])
 	glViewport(0, 0, width, height);
 
 	//Put the color you want here for the background
-	glClearColor(0.9f, 0.7f, 0.9f, 1.0f);
+	glClearColor(1.0f, 0.8f, 1.0f, 1.0f);
 
 	//Create an ID to be given at object generation
 	unsigned int vbo;
@@ -207,43 +218,26 @@ int main(int argc, char* argv[])
 		glBindVertexArray(vao);
 		glUseProgram(shaderProgram);
 
+		MoveBall();
 
-		//Move Ball
-		updatePosX += speedX;
-		updatePosY += speedY;
-		if (updatePosY + maxY >= 1) speedY *= -1;
-		if (updatePosY <= -1) speedY *= -1;
-
-		//Check if paddle on screen and move left paddle
-		if ((paddleLPosY + 0.4 < 1) && paddleSpeedY == 0.01f)  paddleLPosY += paddleSpeedY;
-		if ((paddleLPosY >= -1) && paddleSpeedY == -0.01f)  paddleLPosY += paddleSpeedY;
+		//Check if paddle on screen and move player paddle
+		if ((paddleLPosY + sizePaddleY < 1) && paddleSpeedY > 0)  paddleLPosY += paddleSpeedY;
+		if ((paddleLPosY >= -1) && paddleSpeedY < 0)  paddleLPosY += paddleSpeedY;
 
 		//Move AI Right Paddle
-		if (updatePosY + 0.25f < 1 && updatePosY - 0.15f > -1) paddleRPosY = updatePosY - 0.15f;
+		if (ballPosY + sizeBallY/2 + sizePaddleY/2 < 1 && ballPosY + sizeBallY/2 - sizePaddleY/2 > -1) paddleRPosY = ballPosY + sizeBallY/2 - sizePaddleY/2;
 
-		//Check Hit
-		if (leftPaddleCollision()) {
-			updatePosX = paddleLOffsetX + 0.05f;
-			speedX = -speedX;
-		}
-
-		if (rightPaddleCollision()) {
-			updatePosX = paddleROffsetX - 0.05f;
-			speedX = -speedX;
-		}
-
-		//Check Victory Condition) 
-		if (updatePosX <= -1.0f) { aiPoints++; updatePosX = 0; speedX = -speedX; }
-		if (updatePosX + 0.05f >= 1.0f) { playerPoints++; updatePosX = 0; }
-		if (playerPoints >= 5) window.Close();
+		//Check Victory Condition 
+		if (ballPosX <= -1.0f) { aiPoints++; ballPosX = 0; speedX = -speedX; }
+		if (ballPosX + sizeBallX >= 1.0f) { playerPoints++; ballPosX = 0; }
+		if (playerPoints >= 5) window.Close(); // Cette ligne de code ne sert à rien, tu ne peux pas gagner de toute façon
 		if (aiPoints >= 5) {
 			cout << "Bouhouhou tu as perdu ! De toute facon cette IA est imbattable.\n";
 			isRunning = false;
 		}
 
-
 		int location = glGetUniformLocation(shaderProgram, "updatePos");
-		glUniform2f(location, updatePosX, updatePosY);
+		glUniform2f(location, ballPosX, ballPosY);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 		glUniform2f(location, paddleLOffsetX, paddleLPosY);
@@ -258,8 +252,6 @@ int main(int argc, char* argv[])
 	}
 	// Quit
 	window.Close();
-
-
 	cin.get();
 	return 0;
 }
@@ -280,30 +272,55 @@ string LoadShader(string fileName) {
 	return fileText;
 }
 
-
-// rectA = left paddle
-// rectB = ball
-
-bool leftPaddleCollision() {
+bool LeftPaddleCollision() {
+	//Check collisions between left paddle and ball
 	float xMinA = paddleLOffsetX ;
-	float xMaxA = paddleLOffsetX + 0.05f;
+	float xMaxA = paddleLOffsetX + sizePaddleX;
 	float yMinA = paddleLPosY;
-	float yMaxA = paddleLPosY + 0.4f;
-	float xMinB = updatePosX;
-	float xMaxB = updatePosX + 0.05f;
-	float yMinB = updatePosY;
-	float yMaxB = updatePosY + 0.08f;
+	float yMaxA = paddleLPosY + sizePaddleY;
+	float xMinB = ballPosX;
+	float xMaxB = ballPosX + sizeBallX;
+	float yMinB = ballPosY;
+	float yMaxB = ballPosY + sizeBallY;
 	return!(xMinA > xMaxB || xMaxA < xMinB || yMinA > yMaxB || yMaxA < yMinB);
 }
 
-bool rightPaddleCollision() {
+bool RightPaddleCollision() {
+	//Check collisions between right paddle and ball
 	float xMinA = paddleROffsetX;
-	float xMaxA = paddleROffsetX + 0.05f;
+	float xMaxA = paddleROffsetX + sizePaddleX;
 	float yMinA = paddleRPosY;
-	float yMaxA = paddleRPosY + 0.4f;
-	float xMinB = updatePosX;
-	float xMaxB = updatePosX + 0.05f;
-	float yMinB = updatePosY;
-	float yMaxB = updatePosY + 0.08f;
+	float yMaxA = paddleRPosY + sizePaddleY;
+	float xMinB = ballPosX;
+	float xMaxB = ballPosX + sizeBallX;
+	float yMinB = ballPosY;
+	float yMaxB = ballPosY + sizeBallY;
 	return!(xMinA > xMaxB || xMaxA < xMinB || yMinA > yMaxB || yMaxA < yMinB);
+}
+
+void MoveBall() {
+	ballPosX += speedX;
+	ballPosY += speedY;
+	if (ballPosY + sizeBallY > 1) speedY *= -1;
+	if (ballPosY < -1) speedY *= -1;
+
+	//Check collisions
+	if (LeftPaddleCollision()) {
+		ballPosX = paddleLOffsetX + sizePaddleX;
+		RandomizeBallYSpeed();
+		speedX = -speedX;
+	}
+
+	if (RightPaddleCollision()) {
+		ballPosX = paddleROffsetX - sizeBallX;
+		RandomizeBallYSpeed();
+		speedX = -speedX;
+	}
+}
+
+void RandomizeBallYSpeed() {
+	// Y speed and direction randomizer
+	srand(time(NULL));
+	if (rand() % 2 == 1) speedY = ((rand() % 5 + 11.0f) / 1000.0f);
+	if (rand() % 2 == 0) speedY = -((rand() % 5 + 11.0f) / 1000.0f);
 }
