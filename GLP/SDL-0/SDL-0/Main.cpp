@@ -10,19 +10,22 @@ using namespace std;
 
 #define GLEW_STATIC
 
+float updatePosX = 0.0f;
+float updatePosY = 0.0f;
+float paddleLOffsetX = -0.9f, paddleLPosY = 0.0f;
+float paddleROffsetX = 0.85f, paddleRPosY = 0.0f;
+float paddleSpeedY;
+int playerPoints, aiPoints;
+float speedX = 0.015, speedY = 0.01;
+float maxX = 0.05f;
+float maxY = 0.08f;
 
 string LoadShader(string fileName);
+bool leftPaddleCollision();
+bool rightPaddleCollision();
 
 int main(int argc, char* argv[])
 {
-	float updatePosX = 0.0f;
-	float updatePosY = 0.0f;
-	float paddleLPosX = 0.0f, paddleLPosY = 0.0f;
-	float paddleRPosX = 0.0f, paddleRPosY = 0.0f;
-	float speedX = 0.02, speedY = 0.01;
-	float maxX = 0.05f;
-	float maxY = 0.08f;
-
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
@@ -55,15 +58,15 @@ int main(int argc, char* argv[])
 			0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
 			0.05f, 0.08f, 0.0f,  0.0f, 0.0f, 1.0f,
 			
-			-0.92f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
-		 -0.92f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f,
-		  -0.82f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
-		 -0.82f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.05f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+			0.0f, 0.4f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.05f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,
 
-		  0.92f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
-		  0.92f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f,
-		  0.82f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
-		  0.82f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.05f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+			0.0f, 0.4f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.05f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,
 	};
 
 	/////////SETTING UP OPENGL WITH GLEW///
@@ -157,26 +160,45 @@ int main(int argc, char* argv[])
 
 	bool isRunning = true;
 	while (isRunning) {
+
 		// Inputs
 		SDL_Event event;
-		while (SDL_PollEvent(&event)) {
-			switch (event.type) {
-			case SDL_QUIT:
-				isRunning = false;
-				break;
-			case SDL_KEYDOWN:
+		if (SDL_PollEvent(&event)) {
+			if (event.type == SDL_KEYUP) {
 				switch (event.key.keysym.sym) {
 				case SDLK_z:
-					if(paddleLPosY + 0.2 < 1) paddleLPosY += 0.1;
+					paddleSpeedY = 0;
 					break;
 				case SDLK_s:
-					if (paddleLPosY - 0.2 > -1) paddleLPosY -= 0.1;
+					paddleSpeedY = 0;
+					break;
+				case SDLK_UP:
+					paddleSpeedY = 0;
+					break;
+				case SDLK_DOWN:
+					paddleSpeedY = 0;
 					break;
 				default:
 					break;
 				}
-			default:
-				break;
+			}
+			if (event.type == SDL_KEYDOWN) {
+				switch (event.key.keysym.sym) {
+				case SDLK_z:
+					if (paddleLPosY + 0.4 <= 1) paddleSpeedY = 0.01f;
+					break;
+				case SDLK_s:
+					if (paddleLPosY >= -1) paddleSpeedY = -0.01f;
+					break;
+				case SDLK_UP:
+					if (paddleLPosY + 0.4 <= 1) paddleSpeedY = 0.01f;
+					break;
+				case SDLK_DOWN:
+					if (paddleLPosY >= -1) paddleSpeedY = -0.01f;
+					break;
+				default:
+					break;
+				}
 			}
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
@@ -189,25 +211,42 @@ int main(int argc, char* argv[])
 		//Move Ball
 		updatePosX += speedX;
 		updatePosY += speedY;
-		if (updatePosX + maxX >= 1) speedX *= -1;
-		if (updatePosX <= -1) speedX *= -1;
 		if (updatePosY + maxY >= 1) speedY *= -1;
 		if (updatePosY <= -1) speedY *= -1;
 
-		//Check Hit
-		//if(!AABBCollision()) speedX *= -1;
+		//Check if paddle on screen and move left paddle
+		if ((paddleLPosY + 0.4 < 1) && paddleSpeedY == 0.01f)  paddleLPosY += paddleSpeedY;
+		if ((paddleLPosY >= -1) && paddleSpeedY == -0.01f)  paddleLPosY += paddleSpeedY;
 
 		//Move AI Right Paddle
-		if (updatePosY + 0.2 < 1 && updatePosY - 0.2 > -1) paddleRPosY = updatePosY;
+		if (updatePosY + 0.25f < 1 && updatePosY - 0.15f > -1) paddleRPosY = updatePosY - 0.15f;
+
+		//Check Hit
+		if (leftPaddleCollision()) {
+			updatePosX = paddleLOffsetX + 0.05f;
+			speedX = -speedX;
+		}
+
+		if (rightPaddleCollision()) {
+			updatePosX = paddleROffsetX - 0.05f;
+			speedX = -speedX;
+		}
+
+		//Check Victory Condition) 
+		if (updatePosX <= -1.0f) { aiPoints++; updatePosX = 0; speedX = -speedX; }
+		if (updatePosX + 0.05f >= 1.0f) { playerPoints++; updatePosX = 0; }
+		if (playerPoints >= 5) window.Close();
+		if (aiPoints >= 5) window.Close();
+
 
 		int location = glGetUniformLocation(shaderProgram, "updatePos");
 		glUniform2f(location, updatePosX, updatePosY);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-		glUniform2f(location, paddleLPosX, paddleLPosY);
+		glUniform2f(location, paddleLOffsetX, paddleLPosY);
 		glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
 
-		glUniform2f(location, paddleRPosX, paddleRPosY);
+		glUniform2f(location, paddleROffsetX, paddleRPosY);
 		glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
 		//Shape2D::DrawRectangle(0);
 		window.Update();
@@ -236,4 +275,32 @@ string LoadShader(string fileName) {
 
 	myFile.close();
 	return fileText;
+}
+
+
+// rectA = left paddle
+// rectB = ball
+
+bool leftPaddleCollision() {
+	float xMinA = paddleLOffsetX ;
+	float xMaxA = paddleLOffsetX + 0.05f;
+	float yMinA = paddleLPosY;
+	float yMaxA = paddleLPosY + 0.4f;
+	float xMinB = updatePosX;
+	float xMaxB = updatePosX + 0.05f;
+	float yMinB = updatePosY;
+	float yMaxB = updatePosY + 0.08f;
+	return!(xMinA > xMaxB || xMaxA < xMinB || yMinA > yMaxB || yMaxA < yMinB);
+}
+
+bool rightPaddleCollision() {
+	float xMinA = paddleROffsetX;
+	float xMaxA = paddleROffsetX + 0.05f;
+	float yMinA = paddleRPosY;
+	float yMaxA = paddleRPosY + 0.4f;
+	float xMinB = updatePosX;
+	float xMaxB = updatePosX + 0.05f;
+	float yMinB = updatePosY;
+	float yMaxB = updatePosY + 0.08f;
+	return!(xMinA > xMaxB || xMaxA < xMinB || yMinA > yMaxB || yMaxA < yMinB);
 }
