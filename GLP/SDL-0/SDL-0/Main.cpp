@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "Color.h"
 #include "Shapes2D.h"
+#include "Timer.h"
 using namespace std;	
 
 #define GLEW_STATIC
@@ -30,7 +31,7 @@ int playerPoints, aiPoints;
 string LoadShader(string fileName);
 bool LeftPaddleCollision();
 bool RightPaddleCollision();
-void MoveBall();
+void MoveBall(float dt);
 void RandomizeBallYSpeed();
 
 int main(int argc, char* argv[])
@@ -170,8 +171,10 @@ int main(int argc, char* argv[])
 	glDepthFunc(GL_LESS);
 
 	bool isRunning = true;
+	Timer timer;
+	float dt = 0;
 	while (isRunning) {
-
+		float dt = timer.computeDeltaTime() / 10.0f;
 		// Inputs
 		SDL_Event event;
 		if (SDL_PollEvent(&event)) {
@@ -218,11 +221,11 @@ int main(int argc, char* argv[])
 		glBindVertexArray(vao);
 		glUseProgram(shaderProgram);
 
-		MoveBall();
+		MoveBall(dt);
 
 		//Check if paddle on screen and move player paddle
-		if ((paddleLPosY + sizePaddleY < 1) && paddleSpeedY > 0)  paddleLPosY += paddleSpeedY;
-		if ((paddleLPosY >= -1) && paddleSpeedY < 0)  paddleLPosY += paddleSpeedY;
+		if ((paddleLPosY + sizePaddleY < 1) && paddleSpeedY > 0)  paddleLPosY += paddleSpeedY * dt;
+		if ((paddleLPosY >= -1) && paddleSpeedY < 0)  paddleLPosY += paddleSpeedY * dt;
 
 		//Move AI Right Paddle
 		if (ballPosY + sizeBallY/2 + sizePaddleY/2 < 1 && ballPosY + sizeBallY/2 - sizePaddleY/2 > -1) paddleRPosY = ballPosY + sizeBallY/2 - sizePaddleY/2;
@@ -298,9 +301,9 @@ bool RightPaddleCollision() {
 	return!(xMinA > xMaxB || xMaxA < xMinB || yMinA > yMaxB || yMaxA < yMinB);
 }
 
-void MoveBall() {
-	ballPosX += speedX;
-	ballPosY += speedY;
+void MoveBall(float dt) {
+	ballPosX += speedX * dt;
+	ballPosY += speedY * dt;
 	if (ballPosY + sizeBallY > 1) speedY *= -1;
 	if (ballPosY < -1) speedY *= -1;
 

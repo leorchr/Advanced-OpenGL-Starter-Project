@@ -88,6 +88,7 @@
     <ClCompile Include="maths\Vector2.cpp" />
     <ClCompile Include="maths\Vector3.cpp" />
     <ClCompile Include="maths\Vector4.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +107,7 @@
     <ClInclude Include="maths\Vector3.h" />
     <ClInclude Include="maths\Vector4.h" />
     <ClInclude Include="Shapes2D.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
