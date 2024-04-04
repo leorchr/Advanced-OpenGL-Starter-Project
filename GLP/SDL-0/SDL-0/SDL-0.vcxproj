@@ -101,6 +101,7 @@
     <ClCompile Include="TerrainTessellationScene.cpp" />
     <ClCompile Include="TessellationModesScene.cpp" />
     <ClCompile Include="TessellationScene.cpp" />
+    <ClCompile Include="TextureScene.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,7 +152,13 @@
     <ClInclude Include="TerrainTessellationScene.h" />
     <ClInclude Include="TessellationModesScene.h" />
     <ClInclude Include="TessellationScene.h" />
+    <ClInclude Include="TextureScene.h" />
     <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shaders\textureAnimVertex.shader" />
+    <Content Include="Shaders\textureFragment.shader" />
+    <Content Include="Shaders\textureVertex.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
