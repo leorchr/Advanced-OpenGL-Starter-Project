@@ -46,6 +46,9 @@
     <Filter Include="Fichiers de ressources\Utils\Gaetz Engine">
       <UniqueIdentifier>{213bd315-59dd-4e3e-a594-16aa5038b0b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers de ressources\Shaders\Mipmap">
+      <UniqueIdentifier>{dff4a81d-33a4-44a3-9b4d-5474fe8eadbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -111,6 +114,9 @@
     <ClCompile Include="Engine\Timer.cpp">
       <Filter>Fichiers de ressources\Utils\Gaetz Engine</Filter>
     </ClCompile>
+    <ClCompile Include="MipmapScene.cpp">
+      <Filter>Fichiers sources\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\aminatedFragment.shader">
@@ -175,6 +181,9 @@
     </None>
     <None Include="Shaders\terrainTessEvaluation.shader">
       <Filter>Fichiers de ressources\Shaders\Terrain Tessellation</Filter>
+    </None>
+    <None Include="Shaders\mipmapVertex.shader">
+      <Filter>Fichiers de ressources\Shaders\Mipmap</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -252,6 +261,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Timer.h">
       <Filter>Fichiers de ressources\Utils\Gaetz Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="MipmapScene.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	Window window(960.0f, 540.0f, Color(0.0f, 0.0f, 0.2f, 1.0f));
 
 	//Use a SceneID (see SceneManagement.h) to quickly setup the correct scene for the build!
-	Scene* scene = SceneSelector(TERRAIN_TESSELLATION);
+	Scene* scene = SceneSelector(MIP_MAP);
 	if (scene == nullptr) return 1; //Scene doesn't exist yet
 
 	//Preparing shaders, shader programs, vao and vbo
