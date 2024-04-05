@@ -3,7 +3,7 @@
 #include "ScreensaverScene.h"
 #include "TessellationModesScene.h"
 #include "TerrainTessellationScene.h"
-#include "MipmapScene.h"
+#include "TextureScene.h"
 
 enum SceneID {
 	BASE_SCENE,
@@ -37,7 +37,7 @@ Scene* SceneSelector(SceneID id) {
 		break;
 	}
 	case MIP_MAP: {
-		return new MipmapScene();
+			return new TextureScene();
 		break;
 	}
 	default: {
