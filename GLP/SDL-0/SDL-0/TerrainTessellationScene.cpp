@@ -30,6 +30,7 @@ void TerrainTessellationScene::SetupScene() {
 
 	glEnable(GL_CULL_FACE);
 	//TEXTURES
+	glActiveTexture(GL_TEXTURE1);
 	Assets::loadTextureKtx("./Textures/terragen1.ktx", "terragen1");
 	texDisplacement = Assets::getTextureKtx("terragen1").id;
 	glBindTexture(GL_TEXTURE_2D, texDisplacement);
