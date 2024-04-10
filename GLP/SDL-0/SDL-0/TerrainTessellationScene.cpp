@@ -72,5 +72,19 @@ void TerrainTessellationScene::UpdateScene() {
 	glDrawArraysInstanced(GL_PATCHES, 0, 4, 64 * 64);
 }
 
+void TerrainTessellationScene::HandleInputs(SDL_Event& e)
+{
+	switch (e.type)
+	{
+	case SDL_KEYDOWN:
+		if(e.key.keysym.sym == SDLK_w)
+		{
+			//press W to switch with wireframe view
+			wireframe = !wireframe;
+		}
+        
+	}
+}
+
 
 
