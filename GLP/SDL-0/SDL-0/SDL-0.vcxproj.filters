@@ -52,6 +52,12 @@
     <Filter Include="Fichiers de ressources\Shaders\Grass Scene">
       <UniqueIdentifier>{c5f92921-600b-4778-9775-adf3a4b9e106}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers de ressources\Shaders\Tessellation Quad">
+      <UniqueIdentifier>{6f46b10b-41c6-437b-8318-40583ecc3f5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\Shaders\Cube">
+      <UniqueIdentifier>{ad6a2817-0aed-4205-9c40-d3cd09b35751}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -126,6 +132,12 @@
     <ClCompile Include="GrassScene.cpp">
       <Filter>Fichiers sources\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="CubeScene.cpp">
+      <Filter>Fichiers sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeTessellationScene.cpp">
+      <Filter>Fichiers sources\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\aminatedFragment.shader">
@@ -153,9 +165,6 @@
       <Filter>Fichiers de ressources\Shaders\Demo Scene</Filter>
     </None>
     <None Include="Shaders\tessellationControl.shader">
-      <Filter>Fichiers de ressources\Shaders\Tessellation Simple</Filter>
-    </None>
-    <None Include="Shaders\tessellationEval.shader">
       <Filter>Fichiers de ressources\Shaders\Tessellation Simple</Filter>
     </None>
     <None Include="Shaders\tessellationFragment.shader">
@@ -194,7 +203,36 @@
     <None Include="Shaders\mipmapVertex.shader">
       <Filter>Fichiers de ressources\Shaders\Mipmap</Filter>
     </None>
-    <None Include="Shaders\grassVertex.shader" />
+    <None Include="Shaders\tessellationEval.shader">
+      <Filter>Fichiers de ressources\Shaders\Tessellation Simple</Filter>
+    </None>
+    <None Include="Shaders\tessellationQuadVertex.shader">
+      <Filter>Fichiers de ressources\Shaders\Tessellation Quad</Filter>
+    </None>
+    <None Include="Shaders\tessellationQuadEval.shader">
+      <Filter>Fichiers de ressources\Shaders\Tessellation Quad</Filter>
+    </None>
+    <None Include="Shaders\tessellationQuadControl.shader">
+      <Filter>Fichiers de ressources\Shaders\Tessellation Quad</Filter>
+    </None>
+    <None Include="Shaders\tessallationQuadGeometry.shader">
+      <Filter>Fichiers de ressources\Shaders\Tessellation Quad</Filter>
+    </None>
+    <None Include="Shaders\grassVertex.shader">
+      <Filter>Fichiers de ressources\Shaders\Grass Scene</Filter>
+    </None>
+    <None Include="Shaders\cube.frag">
+      <Filter>Fichiers de ressources\Shaders\Cube</Filter>
+    </None>
+    <None Include="Shaders\cube.vert">
+      <Filter>Fichiers de ressources\Shaders\Cube</Filter>
+    </None>
+    <None Include="cubeTC.shader">
+      <Filter>Fichiers de ressources\Shaders\Cube</Filter>
+    </None>
+    <None Include="cubeTE.shader">
+      <Filter>Fichiers de ressources\Shaders\Cube</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -279,6 +317,12 @@
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="GrassScene.h">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeScene.h">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeTessellationScene.h">
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
     </ClInclude>
   </ItemGroup>

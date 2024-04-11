@@ -14,10 +14,10 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	//Creating a new window w/ dimensions and background color (optional) 
-	Window window(540.0f, 540.0f, Color(0.0f, 0.0f, 0.2f, 1.0f));
+	Window window(1920.0f, 1080.0f, Color(0.0f, 0.0f, 0.2f, 1.0f));
 
 	//Use a SceneID (see SceneManagement.h) to quickly setup the correct scene for the build!
-	Scene* scene = SceneSelector(TERRAIN_TESSELLATION);
+	Scene* scene = SceneSelector(CUBES_TESSELLATION);
 	if (scene == nullptr) return 1; //Scene doesn't exist yet
 
 	//Preparing shaders, shader programs, vao and vbo
