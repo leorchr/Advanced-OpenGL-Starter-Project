@@ -87,6 +87,7 @@
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\TextureKtx.cpp" />
     <ClCompile Include="Engine\Timer.cpp" />
+    <ClCompile Include="GrassScene.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="maths\Matrix4.cpp" />
     <ClCompile Include="maths\Matrix4Row.cpp" />
@@ -109,6 +110,7 @@
     <None Include="Shaders\aminatedFragment.shader" />
     <None Include="Shaders\animatedRainbowFrag.shader" />
     <None Include="Shaders\animatedRainbowVertex.shader" />
+    <None Include="Shaders\grassVertex.shader" />
     <None Include="Shaders\mipmapVertex.shader" />
     <None Include="Shaders\rainbowFragment.shader" />
     <None Include="Shaders\rainbowVertex.shader" />
@@ -138,6 +140,7 @@
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\TextureKtx.h" />
     <ClInclude Include="Engine\Timer.h" />
+    <ClInclude Include="GrassScene.h" />
     <ClInclude Include="maths\Maths.h" />
     <ClInclude Include="maths\Matrix4.h" />
     <ClInclude Include="maths\Matrix4Row.h" />

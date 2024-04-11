@@ -49,6 +49,9 @@
     <Filter Include="Fichiers de ressources\Shaders\Mipmap">
       <UniqueIdentifier>{dff4a81d-33a4-44a3-9b4d-5474fe8eadbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers de ressources\Shaders\Grass Scene">
+      <UniqueIdentifier>{c5f92921-600b-4778-9775-adf3a4b9e106}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -115,6 +118,12 @@
       <Filter>Fichiers de ressources\Utils\Gaetz Engine</Filter>
     </ClCompile>
     <ClCompile Include="MipmapScene.cpp">
+      <Filter>Fichiers sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureScene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GrassScene.cpp">
       <Filter>Fichiers sources\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,6 +194,7 @@
     <None Include="Shaders\mipmapVertex.shader">
       <Filter>Fichiers de ressources\Shaders\Mipmap</Filter>
     </None>
+    <None Include="Shaders\grassVertex.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -262,8 +272,14 @@
     <ClInclude Include="Engine\Timer.h">
       <Filter>Fichiers de ressources\Utils\Gaetz Engine</Filter>
     </ClInclude>
-    <ClInclude Include="MipmapScene.h">
+    <ClInclude Include="TextureScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="MipmapScene.h">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GrassScene.h">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
