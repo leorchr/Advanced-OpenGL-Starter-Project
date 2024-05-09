@@ -58,6 +58,9 @@
     <Filter Include="Fichiers de ressources\Shaders\Cube">
       <UniqueIdentifier>{ad6a2817-0aed-4205-9c40-d3cd09b35751}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers de ressources\Shaders\Beach Scene">
+      <UniqueIdentifier>{892cd11e-d790-4921-82b7-4160b07ea37f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -123,19 +126,16 @@
     <ClCompile Include="Engine\Timer.cpp">
       <Filter>Fichiers de ressources\Utils\Gaetz Engine</Filter>
     </ClCompile>
-    <ClCompile Include="MipmapScene.cpp">
-      <Filter>Fichiers sources\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="TextureScene.cpp">
       <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GrassScene.cpp">
-      <Filter>Fichiers sources\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="CubeScene.cpp">
       <Filter>Fichiers sources\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="CubeTessellationScene.cpp">
+      <Filter>Fichiers sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="BeachScene.cpp">
       <Filter>Fichiers sources\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -200,9 +200,6 @@
     <None Include="Shaders\terrainTessEvaluation.shader">
       <Filter>Fichiers de ressources\Shaders\Terrain Tessellation</Filter>
     </None>
-    <None Include="Shaders\mipmapVertex.shader">
-      <Filter>Fichiers de ressources\Shaders\Mipmap</Filter>
-    </None>
     <None Include="Shaders\tessellationEval.shader">
       <Filter>Fichiers de ressources\Shaders\Tessellation Simple</Filter>
     </None>
@@ -218,9 +215,6 @@
     <None Include="Shaders\tessallationQuadGeometry.shader">
       <Filter>Fichiers de ressources\Shaders\Tessellation Quad</Filter>
     </None>
-    <None Include="Shaders\grassVertex.shader">
-      <Filter>Fichiers de ressources\Shaders\Grass Scene</Filter>
-    </None>
     <None Include="Shaders\cube.frag">
       <Filter>Fichiers de ressources\Shaders\Cube</Filter>
     </None>
@@ -232,6 +226,30 @@
     </None>
     <None Include="cubeTE.shader">
       <Filter>Fichiers de ressources\Shaders\Cube</Filter>
+    </None>
+    <None Include="Shaders\beachControl.shader">
+      <Filter>Fichiers de ressources\Shaders\Beach Scene</Filter>
+    </None>
+    <None Include="Shaders\beachEvaluation.shader">
+      <Filter>Fichiers de ressources\Shaders\Beach Scene</Filter>
+    </None>
+    <None Include="Shaders\beachFragment.shader">
+      <Filter>Fichiers de ressources\Shaders\Beach Scene</Filter>
+    </None>
+    <None Include="Shaders\beachVertex.shader">
+      <Filter>Fichiers de ressources\Shaders\Beach Scene</Filter>
+    </None>
+    <None Include="Shaders\waterControl.shader">
+      <Filter>Fichiers de ressources\Shaders\Beach Scene</Filter>
+    </None>
+    <None Include="Shaders\waterEvaluation.shader">
+      <Filter>Fichiers de ressources\Shaders\Beach Scene</Filter>
+    </None>
+    <None Include="Shaders\waterFragment.shader">
+      <Filter>Fichiers de ressources\Shaders\Beach Scene</Filter>
+    </None>
+    <None Include="Shaders\waterVertex.shader">
+      <Filter>Fichiers de ressources\Shaders\Beach Scene</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -313,17 +331,17 @@
     <ClInclude Include="TextureScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="MipmapScene.h">
-      <Filter>Fichiers d%27en-tête\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="GrassScene.h">
-      <Filter>Fichiers d%27en-tête\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="CubeScene.h">
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="CubeTessellationScene.h">
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="BeachScene.h">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
