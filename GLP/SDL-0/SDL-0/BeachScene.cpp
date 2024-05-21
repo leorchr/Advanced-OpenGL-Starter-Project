@@ -97,7 +97,7 @@ void BeachScene::UpdateScene() {
 	glDrawArraysInstanced(GL_PATCHES, 0, 4, 64*64);
 
 	float sinAnim = sin(t*17) * 2;
-	float sinDisVal = sin(t * 17) * 0.3f;
+	float sinDisVal = sin(t * 10) * 2;
 	
 	m_waterShaderProgram.Use();
 	m_waterShaderProgram.setMatrix4("mv_matrix", view);

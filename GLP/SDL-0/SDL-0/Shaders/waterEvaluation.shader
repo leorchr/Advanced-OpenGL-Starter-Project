@@ -34,9 +34,10 @@ void main(void)
     vec4 p = mix(p2, p1, gl_TessCoord.y);
     p.y += sin(time * 5 + tc.y * 35.0) * 0.7;
     p.y += texture(tex_displacement, tc).r * dmap_depth;
+    p.x += sinDisplacement;
     vec4 plast = mvp_matrix * p;
     plast.y += sin(time * 6 + tc.y * 70.0);
-    plast.x += sin(time * 2 + tc.y * 15.0);
+    plast.x += sin(time * 5 + tc.y * 15.0);
     gl_Position = plast;
     tes_out.tc = tc;
     tes_out.height = p.y;
