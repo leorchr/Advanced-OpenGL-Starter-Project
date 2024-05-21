@@ -96,7 +96,8 @@ void BeachScene::UpdateScene() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDrawArraysInstanced(GL_PATCHES, 0, 4, 64*64);
 
-	float sinAnim = sin(t*16) * 2;
+	float sinAnim = sin(t*17) * 2;
+	float sinDisVal = sin(t * 17) * 0.3f;
 	
 	m_waterShaderProgram.Use();
 	m_waterShaderProgram.setMatrix4("mv_matrix", view);
@@ -106,6 +107,7 @@ void BeachScene::UpdateScene() {
 	m_waterShaderProgram.setFloat("enable_fog", isFogEnabled ? 1.0f : 0.0f);
 	m_waterShaderProgram.setFloat("time", totalTime);
 	m_waterShaderProgram.setFloat("sin", sinAnim);
+	m_waterShaderProgram.setFloat("sinDisplacement", sinDisVal);
 
 	float minHeight = 5;
 	float maxHeight = dmapDepth;
