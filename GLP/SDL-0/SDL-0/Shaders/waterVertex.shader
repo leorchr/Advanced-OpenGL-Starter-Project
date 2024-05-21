@@ -1,6 +1,7 @@
 #version 450 core
 
 uniform float sin;
+out float scaleTexture;
 
 out VS_OUT
 {
@@ -21,4 +22,6 @@ void main(void)
     vs_out.tc = (vertices[gl_VertexID].xz + offs + vec2(0.5)) / 128.0;
     gl_Position = vertices[gl_VertexID] + vec4(float(x - 32), 2.0,
         float(y) + sin, 0.0);
+    scaleTexture = 2;
+    gl_Position.x *= scaleTexture;
 }

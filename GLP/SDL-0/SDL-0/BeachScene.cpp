@@ -52,7 +52,7 @@ void BeachScene::SetupScene() {
 	glEnable(GL_CULL_FACE);
 	//TEXTURES
 	glActiveTexture(GL_TEXTURE1);
-	Assets::loadTexture("./Textures/sand_height.png", "terragen1");
+	Assets::loadTexture("./Textures/voronoise_3.png", "terragen1");
 	texDisplacement = Assets::getTexture("terragen1").id;
 	glBindTexture(GL_TEXTURE_2D, texDisplacement);
 
@@ -65,6 +65,8 @@ void BeachScene::SetupScene() {
 	Assets::loadTexture("./Textures/water.jpeg", "water_color");
 	waterColor = Assets::getTexture("water_color").id;
 	glBindTexture(GL_TEXTURE_2D, waterColor);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
 
 void BeachScene::UpdateScene() {
@@ -123,7 +125,7 @@ void BeachScene::UpdateScene() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glDrawArraysInstanced(GL_PATCHES, 0, 4, 64 * 64);
+	glDrawArraysInstanced(GL_PATCHES, 0, 4, 128 * 128);
 }
 
 void BeachScene::HandleInputs(SDL_Event& e)

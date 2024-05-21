@@ -32,13 +32,16 @@ void main(void)
     vec4 p1 = mix(gl_in[0].gl_Position, gl_in[1].gl_Position, gl_TessCoord.x);
     vec4 p2 = mix(gl_in[2].gl_Position, gl_in[3].gl_Position, gl_TessCoord.x);
     vec4 p = mix(p2, p1, gl_TessCoord.y);
-    p.y += sin(time * 5 + tc.y * 35.0) * 0.7;
-    p.y += texture(tex_displacement, tc).r * dmap_depth;
+    float noise = texture(tex_displacement, tc).r * dmap_depth;
+    p.y += sin(time * 5 + tc.y * 7.0) * 3;
+    p.y += noise;
     p.x += sinDisplacement;
+    p.z += sin(time * 5 + p.x) * noise/10;
     vec4 plast = mvp_matrix * p;
-    plast.y += sin(time * 6 + tc.y * 70.0);
+    plast.y += sin(time * 5 + tc.y * 5.0) * 2 + sin(time * 5 + noise) * 2;
     plast.x += sin(time * 5 + tc.y * 15.0);
+   
     gl_Position = plast;
     tes_out.tc = tc;
-    tes_out.height = p.y;
+    tes_out.height = p.y+ sin(time * 2 +noise);
 }

@@ -1,6 +1,7 @@
 #version 450 core
 
 out vec4 color;
+in float scaleTexture;
 
 layout(binding = 3) uniform sampler2D tex_color;
 
@@ -22,5 +23,5 @@ void main(void)
     
     vec4 height_color = vec4(normalizedHeight, normalizedHeight, normalizedHeight + 200, 0.5);
 
-    color = mix(texture(tex_color, fs_in.tc), height_color, 0.5);
+    color = mix(texture(tex_color, fs_in.tc), height_color, 0.35);
 }
