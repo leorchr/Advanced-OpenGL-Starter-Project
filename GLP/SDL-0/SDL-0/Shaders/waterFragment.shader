@@ -23,5 +23,5 @@ void main(void)
     
     vec4 height_color = vec4(normalizedHeight, normalizedHeight, normalizedHeight + 200, 0.5);
 
-    color = mix(texture(tex_color, fs_in.tc), height_color, 0.35);
+    color = mix(texture(tex_color, fs_in.tc * 8), height_color, 0.35);
 }

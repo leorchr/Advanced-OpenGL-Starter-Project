@@ -79,7 +79,7 @@ void BeachScene::UpdateScene() {
 	glClearBufferfv(GL_COLOR, 0, bgColor);
 	glClearBufferfv(GL_DEPTH, 0, &one);
 
-	view = Matrix4::createLookAt(Vector3(sinf(t) * r, h, cosf(t) * r), Vector3(0.0f,20.0f,20.0f), Vector3(0.0f, 1.0f, 0.0f));
+	view = Matrix4::createLookAt(Vector3(sinf(t) * r + 150, h + 40, cosf(t * 1.5f) * r * 1.5), Vector3(0.0f,20.0f,50.0f), Vector3(0.0f, 1.0f, 0.0f));
 	proj = Matrix4::createPerspectiveFOV(45.0f, Window::Dimension.x, Window::Dimension.y, 0.1f, 1000.0f);
 
 	m_shaderProgram.Use();
@@ -96,7 +96,7 @@ void BeachScene::UpdateScene() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glDrawArraysInstanced(GL_PATCHES, 0, 4, 64*64);
+	glDrawArraysInstanced(GL_PATCHES, 0, 4, 158*158);
 
 	float sinAnim = sin(t*17) * 2;
 	float sinDisVal = sin(t * 10) * 2;

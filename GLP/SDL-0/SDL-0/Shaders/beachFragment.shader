@@ -14,5 +14,5 @@ in TES_OUT
 
 void main(void)
 {
-    color = texture(tex_color, fs_in.tc);
+    color = texture(tex_color, fs_in.tc / 1.2);
 }
